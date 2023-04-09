@@ -40,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
     },
     { timestamps: true }
   );

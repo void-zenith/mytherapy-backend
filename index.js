@@ -13,8 +13,10 @@ index.use(bodyParser.urlencoded({ extended: true }));
 const userRouter = require("./Routes/userRouter");
 const roleRouter = require("./Routes/roleRouter");
 const authRouter = require("./Routes/authRouter");
+const occupationRouter = require("./Routes/occupationRouter");
 index.use("/api/user", userRouter);
 index.use("/api/role", roleRouter);
+index.use("/api/occupation", occupationRouter);
 index.use("/api/auth", authRouter);
 //configs
 const PORT = process.env.PORT || 5000;

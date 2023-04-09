@@ -28,6 +28,9 @@ db.document = require("./documentModel.js")(sequelize, DataTypes);
 db.image = require("./imageModel.js")(sequelize, DataTypes);
 db.role = require("./roleModel.js")(sequelize, DataTypes);
 db.role_user = require("./role_userModel.js")(sequelize, DataTypes);
+db.booking = require("./bookingModel")(sequelize, DataTypes);
+db.occupation = require("./OccupationModel.js")(sequelize, DataTypes);
+db.occupation_user = require("./occupation_userModel")(sequelize, DataTypes);
 // db.booking = require("./bookingModel.js")(sequelize, DataTypes);
 
 db.user.hasOne(db.document, {
@@ -40,7 +43,10 @@ db.user.hasOne(db.image, {
 db.user.hasOne(db.role_user, {
   foreignKey: "user_id",
 });
-db.role.hasOne(db.role_user, {
+db.role.hasMany(db.role_user, {
+  foreignKey: "role_id",
+});
+db.role_user.belongsTo(db.role, {
   foreignKey: "role_id",
 });
 

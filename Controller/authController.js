@@ -48,20 +48,66 @@ const register = async (req, res) => {
     password: hashSync(req.body.password, salt),
     DOB: req.body.DOB,
   };
-  const user = await User.create(body);
-  console.log(req.files.image);
-  console.log(req.files.document);
-  
-  const getRole = await Role.findOne({
-    where: {
-      role: req.body.user_type,
-    },
-  });
-  await await RoleUser.create({
-    user_id: user.user_id,
-    role_id: getRole.role_id,
-  });
-  res.status(200).send(user);
+  if (req.files.document) {
+    body.isVerified = false;
+  } else {
+    body.isVerified = true;
+  }
+  await User.create(body)
+    .then(function (item) {
+      res.status(200).json({
+        message: "Registered Successfully",
+        item: item,
+      });
+      let result = item.dataValues;
+      if (req.files.image) {
+        let imgBody = {
+          user_id: result.user_id,
+          img_src:
+            req.protocol +
+            "://" +
+            req.hostname +
+            ":" +
+            process.env.PORT +
+            "/image/" +
+            req.files.image[0].filename,
+        };
+        Image.create(imgBody);
+      }
+      if (req.files.document) {
+        let docbody = {
+          user_id: result.user_id,
+          doc_src:
+            req.protocol +
+            "://" +
+            req.hostname +
+            ":" +
+            process.env.PORT +
+            "/document/" +
+            req.files.document[0].filename,
+        };
+        Doc.create(docbody);
+      }
+      Role.findOne({
+        where: {
+          role: req.body.user_type,
+        },
+      })
+        .then(function (roleitem) {
+          console.log(roleitem);
+          let resultrole = roleitem.dataValues;
+          RoleUser.create({
+            user_id: result.user_id,
+            role_id: resultrole.role_id,
+          });
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
 };
 module.exports = {
   login,
