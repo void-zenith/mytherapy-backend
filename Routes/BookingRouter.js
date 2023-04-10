@@ -1,9 +1,7 @@
-const occupationController = require("../Controller/occupationController");
+const bookingController = require("../Controller/bookingController");
 const router = require("express").Router();
 
-router.post("/addoccupation", occupationController.addOccupation);
-router.get("/getalloccupation", occupationController.getAllOccupation);
-router.delete("/deleteoccupation/:id", occupationController.deleteOccupation);
-router.put("/updateoccupation/:id", occupationController.updateOccupation);
+router.post("/createbooking", bookingController.addBooking);
+router.post("/cancelbooking/:id", bookingController.cancelBooking);
 
 module.exports = router;

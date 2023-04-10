@@ -57,7 +57,6 @@ const register = async (req, res) => {
     .then(function (item) {
       res.status(200).json({
         message: "Registered Successfully",
-        item: item,
       });
       let result = item.dataValues;
       if (req.files.image) {
