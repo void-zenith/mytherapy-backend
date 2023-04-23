@@ -30,25 +30,38 @@ const getAllTherapists = async (req, res) => {
   res.status(200).send(user);
 };
 const getAllUsers = async (req, res) => {
-  let user = await User.findAll({
-    attributes: ["user_id", "username", "gender", "address", "phone"],
-    include: [
-      {
-        model: RoleUser,
-        required: true,
-        include: [
-          {
-            model: Role,
-            required: true,
-            where: {
-              role: "User",
+  try {
+    await User.findAll({
+      raw: true,
+      attributes: ["user_id", "username", "address", "phone"],
+      include: [
+        {
+          model: RoleUser,
+          required: true,
+          attributes: [],
+          include: [
+            {
+              attributes: [],
+              model: Role,
+              required: true,
+              where: {
+                role: "User",
+              },
             },
-          },
-        ],
-      },
-    ],
-  });
-  res.status(200).send(user);
+          ],
+        },
+      ],
+    }).then((item) => {
+      res.status(200).json({
+        message: "Data Fetched Successfully",
+        data: item,
+      });
+    });
+  } catch (err) {
+    return res.status(404).json({
+      error: err,
+    });
+  }
 };
 
 //get by id
