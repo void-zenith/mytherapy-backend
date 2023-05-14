@@ -1,20 +1,43 @@
 const db = require("../Models");
 const Booking = db.booking;
 
-const addBooking = async (req, res) => {
-  let body = {
-    user_id: req.body.userid,
-    therapist_id: req.body.therapistid,
-    type: req.body.type,
-    time: req.body.time,
-    status: true,
-  };
-  await Booking.create(body).then(function (item) {
-    res.status(200).json({
-      message: "Booking Successfull",
-      data: item,
+const mybookings = async (req, res) => {
+  try {
+    await Booking.findAll({
+    }).then((item) => {
+      res.status(200).json({
+        message: "Booking Successfull",
+        data: item,
+      });
     });
-  });
+  } catch (err) {
+    return res.status(404).json({
+      message: err,
+    });
+  }
+};
+
+const addBooking = async (req, res) => {
+  try {
+    let body = {
+      user_id: req.body.user_id,
+      therapist_id: parseInt(req.body.therapist_id),
+      booking_type: req.body.type,
+      booking_time: req.body.time,
+      status: true,
+    };
+    await Booking.create(body).then((item) => {
+      res.status(200).json({
+        message: "Booking Successfull",
+        data: item,
+      });
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(404).json({
+      message: err,
+    });
+  }
 };
 
 const cancelBooking = async (req, res) => {
@@ -32,5 +55,6 @@ const cancelBooking = async (req, res) => {
 
 module.exports = {
   addBooking,
+  mybookings,
   cancelBooking,
 };

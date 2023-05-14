@@ -50,6 +50,19 @@ db.role_user.belongsTo(db.role, {
   foreignKey: "role_id",
 });
 
+db.user.hasOne(db.occupation_user, {
+  foreignKey: "user_id",
+});
+db.occupation.hasMany(db.occupation_user, {
+  foreignKey: "occupation_id",
+});
+db.occupation_user.belongsTo(db.occupation, {
+  foreignKey: "occupation_id",
+});
+
+db.user.hasMany(db.booking, {
+  foreignKey: "user_id",
+});
 db.sequelize.sync({ force: false }).then(() => {
   console.log("resync complete!");
 });

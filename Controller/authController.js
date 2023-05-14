@@ -14,6 +14,18 @@ const login = async (req, res) => {
     where: {
       user_email: body.email,
     },
+    include: [
+      {
+        model: RoleUser,
+        include: [
+          {
+            attributes: ["role"],
+            model: Role,
+            required: true,
+          },
+        ],
+      },
+    ],
   });
   if (!user) {
     return res.status(404).send("Invalid Email or Password");
@@ -47,6 +59,8 @@ const register = async (req, res) => {
     phone: req.body.phone,
     password: hashSync(req.body.password, salt),
     DOB: req.body.DOB,
+    price: req.body.price,
+    description: req.body.description,
   };
   if (req.files.document) {
     body.isVerified = false;

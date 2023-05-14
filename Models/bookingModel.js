@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      therapy_id: {
+      therapist_id: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       booking_time: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
       },
       status: {
         type: DataTypes.BOOLEAN,

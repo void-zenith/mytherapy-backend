@@ -15,11 +15,13 @@ const userRouter = require("./Routes/userRouter");
 const roleRouter = require("./Routes/roleRouter");
 const authRouter = require("./Routes/authRouter");
 const occupationRouter = require("./Routes/occupationRouter");
+const bookingRouter = require("./Routes/BookingRouter");
 
 index.use("/api/auth", authRouter);
-index.use("/api/user", checkToken, userRouter);
+index.use("/api/user", userRouter);
 index.use("/api/role", roleRouter);
 index.use("/api/occupation", occupationRouter);
+index.use("/api/booking", bookingRouter);
 //configs
 const PORT = process.env.PORT || 5000;
 

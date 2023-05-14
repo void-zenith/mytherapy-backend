@@ -1,13 +1,20 @@
 const db = require("../Models");
 const Occupation = db.occupation;
 const addOccupation = async (req, res) => {
-  let body = {
-    occupation: req.body.occupation,
-  };
-  const occupation = await Occupation.create(body);
-
-  if (occupation) {
-    return res.status(200).send(occupation);
+  try {
+    let body = {
+      occupation: req.body.occupation,
+    };
+    await Occupation.create(body).then((item) => {
+      res.status(200).json({
+        message: "Occupation Created Successfully",
+        data: item,
+      });
+    });
+  } catch (err) {
+    return res.status(404).json({
+      error: err,
+    });
   }
 };
 const updateOccupation = async (req, res) => {
