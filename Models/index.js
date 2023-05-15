@@ -59,6 +59,9 @@ db.occupation.hasMany(db.occupation_user, {
 db.occupation_user.belongsTo(db.occupation, {
   foreignKey: "occupation_id",
 });
+db.occupation_user.belongsTo(db.user, {
+  foreignKey: "user_id",
+});
 
 db.user.hasMany(db.booking, {
   foreignKey: "user_id",

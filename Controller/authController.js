@@ -2,7 +2,9 @@ const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const db = require("../Models");
 const User = db.user;
 const RoleUser = db.role_user;
+const OccupationUser = db.occupation_user;
 const Role = db.role;
+const Occupation = db.occupation;
 const Image = db.image;
 const Doc = db.document;
 
@@ -21,6 +23,16 @@ const login = async (req, res) => {
           {
             attributes: ["role"],
             model: Role,
+            required: true,
+          },
+        ],
+      },
+      {
+        model: OccupationUser,
+        include: [
+          {
+            attributes: ["occupation"],
+            model: Occupation,
             required: true,
           },
         ],
@@ -62,6 +74,9 @@ const register = async (req, res) => {
     price: req.body.price,
     description: req.body.description,
   };
+  if (req.body.occupation) {
+    body.occupation = req.body.occupation;
+  }
   if (req.files.document) {
     body.isVerified = false;
   } else {
@@ -101,13 +116,25 @@ const register = async (req, res) => {
         };
         Doc.create(docbody);
       }
+      if (req.body.occupation) {
+        Occupation.findOne({
+          where: {
+            occupation: req.body.occupation,
+          },
+        }).then((occItem) => {
+          let resultrole = occItem.dataValues;
+          OccupationUser.create({
+            user_id: result.user_id,
+            occupation_id: resultrole.occupation_id,
+          });
+        });
+      }
       Role.findOne({
         where: {
           role: req.body.user_type,
         },
       })
         .then(function (roleitem) {
-          console.log(roleitem);
           let resultrole = roleitem.dataValues;
           RoleUser.create({
             user_id: result.user_id,

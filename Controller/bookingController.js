@@ -4,6 +4,9 @@ const Booking = db.booking;
 const mybookings = async (req, res) => {
   try {
     await Booking.findAll({
+      include: {
+        model: db.user,
+      },
     }).then((item) => {
       res.status(200).json({
         message: "Booking Successfull",

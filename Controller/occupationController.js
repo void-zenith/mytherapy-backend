@@ -27,8 +27,19 @@ const updateOccupation = async (req, res) => {
   res.status(200).send(occupation);
 };
 const getAllOccupation = async (req, res) => {
-  let occupation = await Occupation.findAll({});
-  res.status(200).send(occupation);
+  try {
+    await Occupation.findAll({}).then((item) => {
+      res.status(200).json({
+        message: "Data Fetched Successfully",
+        data: item,
+      });
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 404,
+      message: err,
+    });
+  }
 };
 const deleteOccupation = async (req, res) => {
   let id = req.params.id;
