@@ -24,6 +24,25 @@ const mybookings = async (req, res) => {
   }
 };
 
+const getSingleBooking = async (req, res) => {
+  try {
+    let id = req.params.id;
+    await Booking.findOne({
+      where: {
+        booking_id: id,
+      },
+    }).then((item) => {
+      res.status(200).json({
+        message: "Data Fetched Successfully",
+        data: item,
+      });
+    });
+  } catch (err) {
+    return res.status(404).json({
+      error: err,
+    });
+  }
+};
 const addBooking = async (req, res) => {
   try {
     let body = {
@@ -66,4 +85,5 @@ module.exports = {
   addBooking,
   mybookings,
   cancelBooking,
+  getSingleBooking,
 };
