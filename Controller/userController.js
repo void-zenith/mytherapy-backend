@@ -59,7 +59,7 @@ const getUnverifiedTherapists = async (req, res) => {
 const getAllTherapists = async (req, res) => {
   try {
     await User.findAll({
-      attributes: ["user_id", "username", "address", "phone", "isVerified"],
+      attributes: ["user_id", "username", "address", "phone", "isVerified",  "price"],
       include: [
         {
           model: RoleUser,

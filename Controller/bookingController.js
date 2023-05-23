@@ -61,7 +61,6 @@ const addBooking = async (req, res) => {
       });
     });
   } catch (err) {
-    console.log(err);
     return res.status(404).json({
       message: err,
     });
@@ -69,16 +68,22 @@ const addBooking = async (req, res) => {
 };
 
 const cancelBooking = async (req, res) => {
-  let body = {
-    status: false,
-  };
-  await Booking.update(body, {
-    where: {
-      booking_id: req.params.id,
-    },
-  }).then(function (item) {
-    res.json(200).send(item);
-  });
+  try {
+    let body = {
+      status: false,
+    };
+    await Booking.update(body, {
+      where: {
+        booking_id: req.params.id,
+      },
+    }).then(function (item) {
+      res.json(200).send(item);
+    });
+  } catch (err) {
+    return res.status(404).json({
+      message: err,
+    });
+  }
 };
 
 module.exports = {
