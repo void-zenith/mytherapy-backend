@@ -33,6 +33,7 @@ db.occupation = require("./OccupationModel.js")(sequelize, DataTypes);
 db.occupation_user = require("./occupation_userModel")(sequelize, DataTypes);
 // db.booking = require("./bookingModel.js")(sequelize, DataTypes);
 
+//all relations between tables
 db.user.hasOne(db.document, {
   foreignKey: "user_id",
 });
@@ -69,5 +70,4 @@ db.user.hasMany(db.booking, {
 db.sequelize.sync({ force: false }).then(() => {
   console.log("resync complete!");
 });
-
 module.exports = db;

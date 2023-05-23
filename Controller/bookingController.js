@@ -1,11 +1,15 @@
-const db = require("../Models");
+const db = require("../Models/model");
+const jwt = require("jsonwebtoken");
 const Booking = db.booking;
+const User = db.user;
 
 const mybookings = async (req, res) => {
   try {
+    let token = req.get("authorization");
+    const decoded = jwt.decode(token.split(" ")[1]);
     await Booking.findAll({
-      include: {
-        model: db.user,
+      where: {
+        user_id: decoded.result.user_id,
       },
     }).then((item) => {
       res.status(200).json({
@@ -25,6 +29,8 @@ const addBooking = async (req, res) => {
     let body = {
       user_id: req.body.user_id,
       therapist_id: parseInt(req.body.therapist_id),
+      therapist_name: req.body.therapist_name,
+      therapist_img: req.body.therapist_img,
       booking_type: req.body.type,
       booking_time: req.body.time,
       status: true,

@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
-const db = require("../Models");
+const db = require("../Models/model");
 const User = db.user;
 const RoleUser = db.role_user;
 const OccupationUser = db.occupation_user;

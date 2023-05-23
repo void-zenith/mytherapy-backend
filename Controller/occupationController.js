@@ -1,4 +1,4 @@
-const db = require("../Models");
+const db = require("../Models/model");
 const Occupation = db.occupation;
 const addOccupation = async (req, res) => {
   try {

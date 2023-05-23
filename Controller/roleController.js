@@ -1,4 +1,4 @@
-const db = require("../Models");
+const db = require("../Models/model");
 const Role = db.role;
 const addRole = async (req, res) => {
   try {

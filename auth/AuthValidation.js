@@ -1,5 +1,5 @@
 const { verify } = require("jsonwebtoken");
-const { role } = require("../Models");
+const { role } = require("../Models/model");
 
 const roles = {
   ADMIN: "admin",
@@ -19,7 +19,10 @@ module.exports = {
                 message: "Invalid Token",
               });
             } else {
-              if (decodedObj.result.roleuser.role.role != rolehere && rolehere != "all") {
+              if (
+                decodedObj.result.roleuser.role.role != rolehere &&
+                rolehere != "all"
+              ) {
                 res.status(400).json({
                   status: 400,
                   message: "Invalid Authority!",

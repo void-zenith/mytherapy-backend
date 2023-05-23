@@ -1,4 +1,4 @@
-const db = require("../Models");
+const db = require("../Models/model");
 const { verify } = require("jsonwebtoken");
 const { Sequelize } = require("sequelize");
 //create main model
